@@ -11,7 +11,7 @@ import {
 import { Button } from '@mts241alikhlash/ui/button'
 import { Input } from '@mts241alikhlash/ui/input'
 import { Label } from '@mts241alikhlash/ui/label'
-import { ImagePlus, Upload } from 'lucide-vue-next'
+import { ImagePlus, Upload } from '@lucide/vue'
 import { mediaService } from '../services/mediaService'
 import type { MediaLibraryItem, MediaSelection } from '../types'
 

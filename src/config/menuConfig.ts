@@ -8,7 +8,7 @@ import {
   Menu,
   Newspaper,
   Settings,
-} from 'lucide-vue-next'
+} from '@lucide/vue'
 
 export type {
   SubMenuItem,

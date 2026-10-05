@@ -18,7 +18,7 @@ import {
   Quote,
   Redo2,
   Undo2,
-} from 'lucide-vue-next'
+} from '@lucide/vue'
 import { MediaLibraryDialog, type MediaSelection } from '@/features/media'
 
 const model = defineModel<string>({ required: true })

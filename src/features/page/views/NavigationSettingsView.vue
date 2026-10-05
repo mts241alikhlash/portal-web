@@ -17,13 +17,7 @@ import {
   SelectValue,
 } from '@mts241alikhlash/ui/select'
 import { Switch } from '@mts241alikhlash/ui/switch'
-import {
-  ChevronDown,
-  ChevronUp,
-  GripVertical,
-  Plus,
-  Trash2,
-} from 'lucide-vue-next'
+import { ChevronDown, ChevronUp, GripVertical, Plus, Trash2 } from '@lucide/vue'
 import { navigationService, pageService } from '../services/pageService'
 import { usePageStore } from '../stores/pageStore'
 import {

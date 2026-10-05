@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
-import { CalendarDays, MapPin } from 'lucide-vue-next'
+import { CalendarDays, MapPin } from '@lucide/vue'
 import { Card, CardContent } from '@mts241alikhlash/ui/card'
 import type { PublicAgendaEntry } from '../types'
 

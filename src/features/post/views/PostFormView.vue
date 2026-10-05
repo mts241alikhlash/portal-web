@@ -33,7 +33,7 @@ import {
   Paperclip,
   Save,
   Send,
-} from 'lucide-vue-next'
+} from '@lucide/vue'
 import { MediaLibraryDialog, type MediaSelection } from '@/features/media'
 import RichTextEditor from '../components/RichTextEditor.vue'
 import CoverImagePicker from '../components/CoverImagePicker.vue'

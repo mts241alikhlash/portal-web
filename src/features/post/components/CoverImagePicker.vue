@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { Button } from '@mts241alikhlash/ui/button'
 import { Input } from '@mts241alikhlash/ui/input'
 import { Label } from '@mts241alikhlash/ui/label'
-import { ImagePlus, Trash2 } from 'lucide-vue-next'
+import { ImagePlus, Trash2 } from '@lucide/vue'
 import { MediaLibraryDialog, type MediaSelection } from '@/features/media'
 
 const fileId = defineModel<string | null>('fileId', { required: true })
