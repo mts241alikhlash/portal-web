@@ -3,7 +3,7 @@ import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { NotFoundView } from '@/features/platform/auth'
 import { Button } from '@mts241alikhlash/ui/button'
-import { ChevronLeft, ChevronRight, X } from 'lucide-vue-next'
+import { ChevronLeft, ChevronRight, X } from '@lucide/vue'
 import { galleryService } from '../services/galleryService'
 import { useGalleryStore } from '../stores/galleryStore'
 

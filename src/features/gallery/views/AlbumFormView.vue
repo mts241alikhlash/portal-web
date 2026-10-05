@@ -25,7 +25,7 @@ import {
   Save,
   Send,
   Trash2,
-} from 'lucide-vue-next'
+} from '@lucide/vue'
 import { MediaLibraryDialog, type MediaSelection } from '@/features/media'
 import { CONTENT_STATUS_LABELS } from '@/features/post'
 import { galleryService } from '../services/galleryService'

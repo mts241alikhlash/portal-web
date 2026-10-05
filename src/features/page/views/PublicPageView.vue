@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { Loader2 } from 'lucide-vue-next'
+import { Loader2 } from '@lucide/vue'
 import { NotFoundView } from '@/features/platform/auth'
 import { Skeleton } from '@mts241alikhlash/ui/skeleton'
 import { Separator } from '@mts241alikhlash/ui/separator'

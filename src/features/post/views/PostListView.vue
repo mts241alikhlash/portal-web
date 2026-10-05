@@ -14,7 +14,7 @@ import {
   Plus,
   RotateCcw,
   Trash2,
-} from 'lucide-vue-next'
+} from '@lucide/vue'
 import { postService } from '../services/postService'
 import { usePostStore } from '../stores/postStore'
 import {

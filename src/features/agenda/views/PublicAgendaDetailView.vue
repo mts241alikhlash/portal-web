@@ -2,7 +2,7 @@
 import { computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { NotFoundView } from '@/features/platform/auth'
-import { CalendarDays, MapPin, Loader2 } from 'lucide-vue-next'
+import { CalendarDays, MapPin, Loader2 } from '@lucide/vue'
 import { Skeleton } from '@mts241alikhlash/ui/skeleton'
 import { Separator } from '@mts241alikhlash/ui/separator'
 import { agendaService } from '../services/agendaService'

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
-import { Images, Loader2 } from 'lucide-vue-next'
+import { Images, Loader2 } from '@lucide/vue'
 import { Card, CardContent } from '@mts241alikhlash/ui/card'
 import { Skeleton } from '@mts241alikhlash/ui/skeleton'
 import PagePagination from '@/components/PagePagination.vue'
