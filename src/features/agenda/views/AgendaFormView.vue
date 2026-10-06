@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useBreadcrumbs } from '@mts241alikhlash/web-shared/composables/useBreadcrumbs'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Alert, AlertDescription, AlertTitle } from '@mts241alikhlash/ui/alert'
@@ -11,7 +12,7 @@ import {
   CardTitle,
   CardDescription,
 } from '@mts241alikhlash/ui/card'
-import { DatePicker } from '@mts241alikhlash/ui'
+import { DatePicker, BackButton } from '@mts241alikhlash/ui'
 import { Input } from '@mts241alikhlash/ui/input'
 import { Label } from '@mts241alikhlash/ui/label'
 import { Separator } from '@mts241alikhlash/ui/separator'
@@ -133,6 +134,13 @@ async function togglePublished() {
     store.current.status !== 'PUBLISHED',
   )
 }
+
+useBreadcrumbs(() => {
+  const name = store.current?.title
+  if (!name) return null
+  const trail = route.meta.breadcrumbs ?? []
+  return [...trail.slice(0, -1), { title: name }]
+})
 </script>
 
 <template>
@@ -143,13 +151,19 @@ async function togglePublished() {
       <CardHeader
         class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b px-6 py-5 gap-4"
       >
-        <div>
-          <CardTitle class="text-2xl font-bold tracking-tight">
-            {{ isEdit ? 'Ubah Agenda' : 'Agenda Baru' }}
-          </CardTitle>
-          <CardDescription v-if="store.current">
-            Versi {{ store.current.version }}
-          </CardDescription>
+        <div class="flex items-start gap-3">
+          <BackButton
+            label="Kembali ke daftar agenda"
+            @click="router.push('/admin/agenda')"
+          />
+          <div>
+            <CardTitle class="text-2xl font-bold tracking-tight">
+              {{ isEdit ? 'Ubah Agenda' : 'Agenda Baru' }}
+            </CardTitle>
+            <CardDescription v-if="store.current">
+              Versi {{ store.current.version }}
+            </CardDescription>
+          </div>
         </div>
         <Badge
           v-if="store.current"
