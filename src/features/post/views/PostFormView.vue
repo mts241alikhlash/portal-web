@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useBreadcrumbs } from '@mts241alikhlash/web-shared/composables/useBreadcrumbs'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { categoryService } from '@/features/taxonomy'
@@ -11,7 +12,7 @@ import {
   CardTitle,
   CardDescription,
 } from '@mts241alikhlash/ui/card'
-import { DatePicker } from '@mts241alikhlash/ui'
+import { DatePicker, BackButton } from '@mts241alikhlash/ui'
 import { Input } from '@mts241alikhlash/ui/input'
 import { Label } from '@mts241alikhlash/ui/label'
 import {
@@ -50,7 +51,16 @@ const route = useRoute()
 const router = useRouter()
 const store = usePostStore()
 
-const postType = computed(() => (route.meta.postType as PostType) ?? 'BERITA')
+const postType = computed<PostType>(() => {
+  if (store.current) return store.current.type
+  const param = String(route.params.type ?? '').toUpperCase()
+  return param in POST_TYPE_LABELS ? (param as PostType) : 'BERITA'
+})
+const POST_LIST_PATHS: Record<PostType, string> = {
+  BERITA: '/admin/news',
+  ARTIKEL: '/admin/articles',
+  PENGUMUMAN: '/admin/announcements',
+}
 const postId = computed(() => route.params.id as string | undefined)
 const isEdit = computed(() => Boolean(postId.value))
 
@@ -227,6 +237,13 @@ async function transition(action: 'unpublish' | 'archive') {
     version: store.current.version,
   })
 }
+
+useBreadcrumbs(() => {
+  const name = store.current?.title
+  if (!name) return null
+  const trail = route.meta.breadcrumbs ?? []
+  return [...trail.slice(0, -1), { title: name }]
+})
 </script>
 
 <template>
@@ -237,13 +254,19 @@ async function transition(action: 'unpublish' | 'archive') {
       <CardHeader
         class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b px-6 py-5 gap-4"
       >
-        <div>
-          <CardTitle class="text-2xl font-bold tracking-tight">
-            {{ isEdit ? 'Ubah' : 'Tulis' }} {{ POST_TYPE_LABELS[postType] }}
-          </CardTitle>
-          <CardDescription v-if="store.current">
-            Versi {{ store.current.version }}
-          </CardDescription>
+        <div class="flex items-start gap-3">
+          <BackButton
+            label="Kembali ke daftar konten"
+            @click="router.push(POST_LIST_PATHS[postType])"
+          />
+          <div>
+            <CardTitle class="text-2xl font-bold tracking-tight">
+              {{ isEdit ? 'Ubah' : 'Tulis' }} {{ POST_TYPE_LABELS[postType] }}
+            </CardTitle>
+            <CardDescription v-if="store.current">
+              Versi {{ store.current.version }}
+            </CardDescription>
+          </div>
         </div>
         <Badge
           v-if="store.current"

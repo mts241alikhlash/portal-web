@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useBreadcrumbs } from '@mts241alikhlash/web-shared/composables/useBreadcrumbs'
+import { BackButton } from '@mts241alikhlash/ui'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Alert, AlertDescription, AlertTitle } from '@mts241alikhlash/ui/alert'
@@ -94,6 +96,13 @@ async function togglePublished() {
     store.current.status !== 'PUBLISHED',
   )
 }
+
+useBreadcrumbs(() => {
+  const name = store.current?.title
+  if (!name) return null
+  const trail = route.meta.breadcrumbs ?? []
+  return [...trail.slice(0, -1), { title: name }]
+})
 </script>
 
 <template>
@@ -104,13 +113,19 @@ async function togglePublished() {
       <CardHeader
         class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b px-6 py-5 gap-4"
       >
-        <div>
-          <CardTitle class="text-2xl font-bold tracking-tight">
-            {{ isEdit ? 'Ubah Halaman' : 'Halaman Baru' }}
-          </CardTitle>
-          <CardDescription v-if="store.current">
-            Versi {{ store.current.version }}
-          </CardDescription>
+        <div class="flex items-start gap-3">
+          <BackButton
+            label="Kembali ke daftar halaman"
+            @click="router.push('/admin/pages')"
+          />
+          <div>
+            <CardTitle class="text-2xl font-bold tracking-tight">
+              {{ isEdit ? 'Ubah Halaman' : 'Halaman Baru' }}
+            </CardTitle>
+            <CardDescription v-if="store.current">
+              Versi {{ store.current.version }}
+            </CardDescription>
+          </div>
         </div>
         <Badge
           v-if="store.current"
