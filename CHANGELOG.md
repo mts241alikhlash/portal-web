@@ -1,5 +1,11 @@
 # portal-web
 
+## 1.2.0
+
+### Minor Changes
+
+- 6ddf84b: `DataTable`'s built-in search field uses `SearchInput` from `@mts241alikhlash/ui` 1.2.0, the same field every other app shows.
+
 ## 1.1.0
 
 ### Minor Changes
