@@ -1,5 +1,15 @@
 # portal-web
 
+## 1.4.0
+
+### Minor Changes
+
+- 103fc91: The profile address editor now selects official administrative regions and saves their codes.
+
+### Patch Changes
+
+- 6252509: The Vite dev server pre-bundles the Unovis `striptags` dependency so pages with charts load in the browser. Development only.
+
 ## 1.3.0
 
 ### Minor Changes
