@@ -1,5 +1,11 @@
 # portal-web
 
+## 1.4.1
+
+### Patch Changes
+
+- 69456c1: The sidebar menu follows permissions only (web-shared 1.2.0), so a visible item always opens, also for the super admin.
+
 ## 1.4.0
 
 ### Minor Changes
