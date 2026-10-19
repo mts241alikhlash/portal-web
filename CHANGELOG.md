@@ -1,5 +1,11 @@
 # portal-web
 
+## 1.4.2
+
+### Patch Changes
+
+- 3603cef: Card, judul, dan isi memakai standar `@mts241alikhlash/ui` 1.8; field profil, alamat, dan login memakai `FloatingField`; aksi baris dengan dua aksi atau lebih memakai `ActionCell items`.
+
 ## 1.4.1
 
 ### Patch Changes
