@@ -2,9 +2,14 @@
 import { computed, h, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import type { ColumnDef } from '@tanstack/vue-table'
-import { DataTable } from '@mts241alikhlash/ui'
+import { ActionCell, DataTable } from '@mts241alikhlash/ui'
 import { Button } from '@mts241alikhlash/ui/button'
-import { Card, CardHeader, CardTitle } from '@mts241alikhlash/ui/card'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from '@mts241alikhlash/ui/card'
 import { Badge } from '@mts241alikhlash/ui/badge'
 import {
   Archive,
@@ -163,103 +168,63 @@ const columns = computed<ColumnDef<PostAdminSummary>[]>(() => [
   },
   {
     id: 'actions',
-    header: () => h('div', { class: 'text-right' }, 'Tindakan'),
+    header: 'Aksi',
+    meta: { align: 'center' },
     cell: ({ row }) => {
       const post = row.original
+      const disabled = store.isSaving
+      const removeItem = {
+        label: 'Hapus',
+        icon: Trash2,
+        destructive: true,
+        disabled,
+        onClick: () => void remove(post),
+      }
       if (store.showDeleted) {
-        return h('div', { class: 'flex justify-end gap-1' }, [
-          h(
-            Button,
+        return h(ActionCell, {
+          hideEdit: true,
+          hideDelete: true,
+          items: [
             {
-              variant: 'ghost',
-              size: 'icon',
-              title: 'Pulihkan',
-              disabled: store.isSaving,
-              onClick: (e: Event) => {
-                e.stopPropagation()
-                void restore(post)
-              },
+              label: 'Pulihkan',
+              icon: RotateCcw,
+              disabled,
+              onClick: () => void restore(post),
             },
-            () => h(RotateCcw, { class: 'size-4' }),
-          ),
-        ])
+          ],
+        })
       }
 
-      const actions = []
-
-      actions.push(
-        h(
-          Button,
-          {
-            variant: 'ghost',
-            size: 'icon',
-            title: post.pinnedAt ? 'Lepas sematan' : 'Sematkan',
-            disabled: store.isSaving,
-            onClick: (e: Event) => {
-              e.stopPropagation()
-              void transition(post, post.pinnedAt ? 'unpin' : 'pin')
-            },
-          },
-          () => h(post.pinnedAt ? PinOff : Pin, { class: 'size-4' }),
-        ),
-      )
-
-      if (post.status === 'PUBLISHED' || post.status === 'SCHEDULED') {
-        actions.push(
-          h(
-            Button,
-            {
-              variant: 'ghost',
-              size: 'icon',
-              title: 'Tarik dari publikasi',
-              disabled: store.isSaving,
-              onClick: (e: Event) => {
-                e.stopPropagation()
-                void transition(post, 'unpublish')
+      const items = [
+        {
+          label: post.pinnedAt ? 'Lepas sematan' : 'Sematkan',
+          icon: post.pinnedAt ? PinOff : Pin,
+          disabled,
+          onClick: () => void transition(post, post.pinnedAt ? 'unpin' : 'pin'),
+        },
+        ...(post.status === 'PUBLISHED' || post.status === 'SCHEDULED'
+          ? [
+              {
+                label: 'Tarik dari publikasi',
+                icon: EyeOff,
+                disabled,
+                onClick: () => void transition(post, 'unpublish'),
               },
-            },
-            () => h(EyeOff, { class: 'size-4' }),
-          ),
-        )
-      }
-
-      if (post.status !== 'ARCHIVED') {
-        actions.push(
-          h(
-            Button,
-            {
-              variant: 'ghost',
-              size: 'icon',
-              title: 'Arsipkan',
-              disabled: store.isSaving,
-              onClick: (e: Event) => {
-                e.stopPropagation()
-                void transition(post, 'archive')
+            ]
+          : []),
+        ...(post.status !== 'ARCHIVED'
+          ? [
+              {
+                label: 'Arsipkan',
+                icon: Archive,
+                disabled,
+                onClick: () => void transition(post, 'archive'),
               },
-            },
-            () => h(Archive, { class: 'size-4' }),
-          ),
-        )
-      }
-
-      actions.push(
-        h(
-          Button,
-          {
-            variant: 'ghost',
-            size: 'icon',
-            title: 'Hapus',
-            disabled: store.isSaving,
-            onClick: (e: Event) => {
-              e.stopPropagation()
-              void remove(post)
-            },
-          },
-          () => h(Trash2, { class: 'size-4' }),
-        ),
-      )
-
-      return h('div', { class: 'flex justify-end gap-1' }, actions)
+            ]
+          : []),
+        removeItem,
+      ]
+      return h(ActionCell, { hideEdit: true, hideDelete: true, items })
     },
   },
 ])
@@ -268,24 +233,23 @@ const columns = computed<ColumnDef<PostAdminSummary>[]>(() => [
 <template>
   <div class="p-4 md:p-6 lg:p-8">
     <Card
+      gap="none"
       class="overflow-hidden rounded-2xl shadow-sm shadow-black/5 ring-1 ring-black/4"
     >
-      <CardHeader
-        class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b px-6 py-5 gap-4"
-      >
-        <CardTitle class="text-2xl font-bold tracking-tight">
+      <CardHeader standard>
+        <CardTitle size="lg">
           {{ POST_TYPE_LABELS[postType] }}
         </CardTitle>
-        <Button
-          class="w-full sm:w-auto"
-          @click="openNew"
-        >
+        <Button @click="openNew">
           <Plus class="mr-2 h-4 w-4" />
           Tulis {{ POST_TYPE_LABELS[postType] }}
         </Button>
       </CardHeader>
 
-      <div class="p-6 space-y-4">
+      <CardContent
+        variant="standard"
+        class="space-y-4"
+      >
         <div
           v-if="store.conflict"
           class="rounded-md border border-destructive/50 bg-destructive/10 p-4 text-sm"
@@ -320,7 +284,7 @@ const columns = computed<ColumnDef<PostAdminSummary>[]>(() => [
             </Button>
           </template>
         </DataTable>
-      </div>
+      </CardContent>
     </Card>
   </div>
 </template>

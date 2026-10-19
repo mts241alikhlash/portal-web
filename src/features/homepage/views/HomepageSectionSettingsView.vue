@@ -28,19 +28,19 @@ function save(key: string, itemCount: number, isEnabled: boolean) {
 <template>
   <div class="p-4 md:p-6 lg:p-8">
     <Card
+      gap="none"
       class="overflow-hidden rounded-2xl shadow-sm shadow-black/5 ring-1 ring-black/4 w-full"
     >
-      <CardHeader
-        class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b px-6 py-5 gap-4"
-      >
+      <CardHeader standard>
         <div>
-          <CardTitle class="text-2xl font-bold tracking-tight"
-            >Beranda</CardTitle
-          >
+          <CardTitle size="lg">Beranda</CardTitle>
         </div>
       </CardHeader>
 
-      <CardContent class="p-6 space-y-4">
+      <CardContent
+        variant="standard"
+        class="space-y-4"
+      >
         <p
           v-if="store.loading"
           class="text-sm text-muted-foreground"

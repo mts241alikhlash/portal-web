@@ -2,10 +2,15 @@
 import { h, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import type { ColumnDef } from '@tanstack/vue-table'
-import { DataTable } from '@mts241alikhlash/ui'
+import { ActionCell, DataTable } from '@mts241alikhlash/ui'
 import { Badge } from '@mts241alikhlash/ui/badge'
 import { Button } from '@mts241alikhlash/ui/button'
-import { Card, CardHeader, CardTitle } from '@mts241alikhlash/ui/card'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from '@mts241alikhlash/ui/card'
 import { Eye, EyeOff, Plus, Trash2 } from '@lucide/vue'
 import { CONTENT_STATUS_LABELS } from '@/features/post'
 import { pageService } from '../services/pageService'
@@ -93,42 +98,31 @@ const columns: ColumnDef<PortalPage>[] = [
   },
   {
     id: 'actions',
-    header: () => h('div', { class: 'text-right' }, 'Tindakan'),
+    header: 'Aksi',
+    meta: { align: 'center' },
     cell: ({ row }) => {
       const page = row.original
-      return h('div', { class: 'flex justify-end gap-1' }, [
-        h(
-          Button,
+      return h(ActionCell, {
+        hideEdit: true,
+        hideDelete: true,
+        items: [
           {
-            variant: 'ghost',
-            size: 'icon',
-            title:
+            label:
               page.status === 'PUBLISHED'
                 ? 'Tarik dari publikasi'
                 : 'Terbitkan',
+            icon: page.status === 'PUBLISHED' ? EyeOff : Eye,
             disabled: store.isSaving,
-            onClick: (e: Event) => {
-              e.stopPropagation()
-              void togglePublished(page)
-            },
+            onClick: () => void togglePublished(page),
           },
-          () =>
-            h(page.status === 'PUBLISHED' ? EyeOff : Eye, { class: 'size-4' }),
-        ),
-        h(
-          Button,
           {
-            variant: 'ghost',
-            size: 'icon',
-            title: 'Hapus',
-            onClick: (e: Event) => {
-              e.stopPropagation()
-              void remove(page)
-            },
+            label: 'Hapus',
+            icon: Trash2,
+            destructive: true,
+            onClick: () => void remove(page),
           },
-          () => h(Trash2, { class: 'size-4' }),
-        ),
-      ])
+        ],
+      })
     },
   },
 ]
@@ -137,26 +131,20 @@ const columns: ColumnDef<PortalPage>[] = [
 <template>
   <div class="p-4 md:p-6 lg:p-8">
     <Card
+      gap="none"
       class="overflow-hidden rounded-2xl shadow-sm shadow-black/5 ring-1 ring-black/4"
     >
-      <CardHeader
-        class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b px-6 py-5 gap-4"
-      >
+      <CardHeader standard>
         <div>
-          <CardTitle class="text-2xl font-bold tracking-tight"
-            >Halaman</CardTitle
-          >
+          <CardTitle size="lg">Halaman</CardTitle>
         </div>
-        <Button
-          class="w-full sm:w-auto"
-          @click="openNew"
-        >
+        <Button @click="openNew">
           <Plus class="mr-2 h-4 w-4" />
           Halaman baru
         </Button>
       </CardHeader>
 
-      <div class="p-6">
+      <CardContent variant="standard">
         <DataTable
           :columns="columns"
           :data="store.pages"
@@ -165,7 +153,7 @@ const columns: ColumnDef<PortalPage>[] = [
           filter-column="title"
           filter-placeholder="Cari halaman..."
         />
-      </div>
+      </CardContent>
     </Card>
   </div>
 </template>
