@@ -249,18 +249,17 @@ useBreadcrumbs(() => {
 <template>
   <div class="p-4 md:p-6 lg:p-8">
     <Card
+      gap="none"
       class="overflow-hidden rounded-2xl shadow-sm shadow-black/5 ring-1 ring-black/4 w-full"
     >
-      <CardHeader
-        class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b px-6 py-5 gap-4"
-      >
+      <CardHeader standard>
         <div class="flex items-start gap-3">
           <BackButton
             label="Kembali ke daftar konten"
             @click="router.push(POST_LIST_PATHS[postType])"
           />
           <div>
-            <CardTitle class="text-2xl font-bold tracking-tight">
+            <CardTitle size="lg">
               {{ isEdit ? 'Ubah' : 'Tulis' }} {{ POST_TYPE_LABELS[postType] }}
             </CardTitle>
             <CardDescription v-if="store.current">
@@ -276,7 +275,10 @@ useBreadcrumbs(() => {
         </Badge>
       </CardHeader>
 
-      <CardContent class="p-6 space-y-6">
+      <CardContent
+        variant="standard"
+        class="space-y-6"
+      >
         <Alert
           v-if="store.conflict"
           variant="destructive"

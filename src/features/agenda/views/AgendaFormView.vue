@@ -146,18 +146,17 @@ useBreadcrumbs(() => {
 <template>
   <div class="p-4 md:p-6 lg:p-8">
     <Card
+      gap="none"
       class="overflow-hidden rounded-2xl shadow-sm shadow-black/5 ring-1 ring-black/4 w-full"
     >
-      <CardHeader
-        class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b px-6 py-5 gap-4"
-      >
+      <CardHeader standard>
         <div class="flex items-start gap-3">
           <BackButton
             label="Kembali ke daftar agenda"
             @click="router.push('/admin/agenda')"
           />
           <div>
-            <CardTitle class="text-2xl font-bold tracking-tight">
+            <CardTitle size="lg">
               {{ isEdit ? 'Ubah Agenda' : 'Agenda Baru' }}
             </CardTitle>
             <CardDescription v-if="store.current">
@@ -173,7 +172,10 @@ useBreadcrumbs(() => {
         </Badge>
       </CardHeader>
 
-      <CardContent class="p-6 space-y-6">
+      <CardContent
+        variant="standard"
+        class="space-y-6"
+      >
         <Alert
           v-if="store.conflict"
           variant="destructive"
