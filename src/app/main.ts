@@ -15,6 +15,8 @@ configureAuth({
   appSubtitle: 'MTs Persis 241 Al-Ikhlash',
   logoAlt: 'Logo 241 Portal',
   loginTitle: 'Masuk ke 241 Portal',
+  loginSubtitle: 'Kelola konten dan informasi madrasah.',
+  identifierLabel: 'Nama pengguna',
   homeRoute: '/dashboard',
   ssoApp: 'portal',
 })
