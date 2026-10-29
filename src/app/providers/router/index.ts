@@ -12,6 +12,7 @@ import { portalHomeRoutes } from '@/features/homepage'
 import { portalPageRoutes, portalPublicPageRoutes } from '@/features/page'
 import { portalPostRoutes, portalPublicPostRoutes } from '@/features/post'
 import { portalTaxonomyRoutes } from '@/features/taxonomy'
+import { profileRoutes } from '@/features/platform/profile'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +38,7 @@ const router = createRouter({
         ...portalPageRoutes,
         ...portalAgendaRoutes,
         ...portalGalleryRoutes,
+        ...profileRoutes,
       ],
     },
     {
